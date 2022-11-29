@@ -7,8 +7,6 @@ import com.logispin.model.Ticket;
 
 public class EventDTO {
 
-	private Long id;
-
 	private String name;
 
 	private Date date;
@@ -16,14 +14,6 @@ public class EventDTO {
 	private Integer initialNumberOfTickets;
 
 	private List<Ticket> ticketList;
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
 
 	public String getName() {
 		return name;
@@ -59,7 +49,7 @@ public class EventDTO {
 
 	@Override
 	public String toString() {
-		return "Event [id=" + id + ", name=" + name + ", date=" + date + ", initialNumberOfTickets="
+		return "Event [name=" + name + ", date=" + date + ", initialNumberOfTickets="
 				+ initialNumberOfTickets + ", ticketList=" + ticketList + "]";
 	}
 }

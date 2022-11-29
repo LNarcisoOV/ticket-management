@@ -21,6 +21,11 @@ public class EventServiceImpl implements EventService {
 	
 	@Autowired
 	private ModelMapper modelMapper;
+	
+	@Override
+	public List<Event> findAll() {
+		return eventRepository.findAll();
+	}
 
 	@Override
 	public Optional<Event> save(EventDTO eventDTO) {
@@ -30,4 +35,6 @@ public class EventServiceImpl implements EventService {
 		final Event eventDB = eventRepository.save(event);
 		return Optional.of(eventDB);
 	}
+
+	
 }

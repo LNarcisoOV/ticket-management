@@ -4,21 +4,11 @@ import java.util.Date;
 
 public class EventDTO {
 
-	private Long id;
-
 	private String name;
 
 	private Date date;
 
 	private Integer numberOfTickets;
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
 
 	public String getName() {
 		return name;
@@ -46,6 +36,6 @@ public class EventDTO {
 
 	@Override
 	public String toString() {
-		return "Event [id=" + id + ", name=" + name + ", date=" + date + ", numberOfTickets=" + numberOfTickets + "]";
+		return "Event [name=" + name + ", date=" + date + ", numberOfTickets=" + numberOfTickets + "]";
 	}
 }

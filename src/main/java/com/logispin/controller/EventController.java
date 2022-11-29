@@ -10,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -51,6 +53,24 @@ public class EventController {
 			}
 		} catch (RuntimeException runtimeException) {
 			LOGGER.error("Error to create event: {} ", runtimeException.getMessage());
+			throw new RuntimeException("An exception occurs;");
+		}
+	}
+	
+	@PutMapping("/{eventId}")
+	public ResponseEntity<EventDTO> update(@PathVariable String eventId, @RequestBody EventDTO eventDTO) {
+		try {
+			Optional<Event> eventOpt = eventService.update(Long.parseLong(eventId), eventDTO);
+			if (eventOpt.isPresent()) {
+				LOGGER.info("Updated event: {} ", eventOpt.get().toString());
+				EventDTO eventDTOResponse = modelMapper.map(eventOpt.get(), EventDTO.class);
+				return new ResponseEntity<EventDTO>(eventDTOResponse, HttpStatus.CREATED);
+			} else {
+				LOGGER.warn("Error to update event.");
+				return new ResponseEntity<EventDTO>(HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+		} catch (RuntimeException runtimeException) {
+			LOGGER.error("Error to update event: {} ", runtimeException.getMessage());
 			throw new RuntimeException("An exception occurs;");
 		}
 	}

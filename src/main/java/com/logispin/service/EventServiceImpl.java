@@ -36,5 +36,20 @@ public class EventServiceImpl implements EventService {
 		return Optional.of(eventDB);
 	}
 
+	@Override
+	public Optional<Event> update(Long eventId, EventDTO eventDTO) {
+		final Optional<Event> eventOpt = eventRepository.findById(eventId);
+		
+		if(eventOpt.isPresent()) {
+			final List<Ticket> ticketList = new ArrayList<>(eventDTO.getInitialNumberOfTickets());
+			eventDTO.setTicketList(ticketList);
+			final Event event = modelMapper.map(eventDTO, Event.class);
+			event.setId(eventId);
+			final Event eventDB = eventRepository.save(event);
+			return Optional.of(eventDB);
+		} 
+		return Optional.empty();
+	}
+
 	
 }

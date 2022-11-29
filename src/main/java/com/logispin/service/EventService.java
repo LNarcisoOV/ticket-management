@@ -12,4 +12,6 @@ public interface EventService {
 
 	List<Event> findAll();
 
+	Optional<Event> update(Long eventId, EventDTO eventDTO);
+
 }

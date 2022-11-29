@@ -1,5 +1,7 @@
 package com.logispin.service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
@@ -7,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.logispin.model.Event;
+import com.logispin.model.Ticket;
 import com.logispin.model.dto.EventDTO;
 import com.logispin.repository.EventRepository;
 
@@ -21,6 +24,8 @@ public class EventServiceImpl implements EventService {
 
 	@Override
 	public Optional<Event> save(EventDTO eventDTO) {
+		final List<Ticket> ticketList = new ArrayList<>(eventDTO.getInitialNumberOfTickets());
+		eventDTO.setTicketList(ticketList);
 		final Event event = modelMapper.map(eventDTO, Event.class);
 		final Event eventDB = eventRepository.save(event);
 		return Optional.of(eventDB);

@@ -1,13 +1,17 @@
 package com.logispin.model;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class Event {
@@ -23,7 +27,11 @@ public class Event {
 	private Date date;
 
 	@Column
-	private Integer numberOfTickets;
+	private Integer initialNumberOfTickets;
+	
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name="EVENT_ID")
+	private List<Ticket> ticketList;
 
 	public Long getId() {
 		return id;
@@ -49,17 +57,25 @@ public class Event {
 		this.date = date;
 	}
 
-	public Integer getNumberOfTickets() {
-		return numberOfTickets;
+	public Integer getInitialNumberOfTickets() {
+		return initialNumberOfTickets;
 	}
 
-	public void setNumberOfTickets(Integer numberOfTickets) {
-		this.numberOfTickets = numberOfTickets;
+	public void setInitialNumberOfTickets(Integer initialNumberOfTickets) {
+		this.initialNumberOfTickets = initialNumberOfTickets;
+	}
+
+	public List<Ticket> getTicketList() {
+		return ticketList;
+	}
+
+	public void setTicketList(List<Ticket> ticketList) {
+		this.ticketList = ticketList;
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(date, id, name, numberOfTickets);
+		return Objects.hash(date, id, initialNumberOfTickets, name, ticketList);
 	}
 
 	@Override
@@ -71,12 +87,14 @@ public class Event {
 		if (getClass() != obj.getClass())
 			return false;
 		Event other = (Event) obj;
-		return Objects.equals(date, other.date) && Objects.equals(id, other.id) && Objects.equals(name, other.name)
-				&& Objects.equals(numberOfTickets, other.numberOfTickets);
+		return Objects.equals(date, other.date) && Objects.equals(id, other.id)
+				&& Objects.equals(initialNumberOfTickets, other.initialNumberOfTickets)
+				&& Objects.equals(name, other.name) && Objects.equals(ticketList, other.ticketList);
 	}
 
 	@Override
 	public String toString() {
-		return "Event [id=" + id + ", name=" + name + ", date=" + date + ", numberOfTickets=" + numberOfTickets + "]";
+		return "Event [id=" + id + ", name=" + name + ", date=" + date + ", initialNumberOfTickets="
+				+ initialNumberOfTickets + ", ticketList=" + ticketList + "]";
 	}
 }

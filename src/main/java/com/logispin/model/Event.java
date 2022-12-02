@@ -29,8 +29,8 @@ public class Event {
 	@Column
 	private Integer initialNumberOfTickets;
 	
-	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name="EVENT_ID")
+	@OneToMany(cascade = CascadeType.ALL)
 	private List<Ticket> ticketList;
 
 	public Long getId() {

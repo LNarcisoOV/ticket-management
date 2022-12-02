@@ -1,6 +1,7 @@
 package com.logispin.service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,6 +23,9 @@ public class EventServiceImpl implements EventService {
 	@Autowired
 	private ModelMapper modelMapper;
 	
+	@Autowired
+	private TicketService ticketService;
+	
 	@Override
 	public List<Event> findAll() {
 		return eventRepository.findAll();
@@ -29,11 +33,23 @@ public class EventServiceImpl implements EventService {
 
 	@Override
 	public Optional<Event> save(EventDTO eventDTO) {
-		final List<Ticket> ticketList = new ArrayList<>(eventDTO.getInitialNumberOfTickets());
-		eventDTO.setTicketList(ticketList);
 		final Event event = modelMapper.map(eventDTO, Event.class);
 		final Event eventDB = eventRepository.save(event);
+		
+		createTicketList(eventDB);
+		
 		return Optional.of(eventDB);
+	}
+
+	private void createTicketList(Event eventDB) {
+		final List<Ticket> ticketList = new ArrayList<>();
+		for(Ticket ticket : Arrays.asList(new Ticket[eventDB.getInitialNumberOfTickets()])) {
+			ticket = new Ticket();
+			ticket.setEvent(eventDB);
+			ticket.setRedeemed(false);
+			ticketList.add(ticket);
+		}
+		ticketService.saveAll(ticketList);
 	}
 
 	@Override

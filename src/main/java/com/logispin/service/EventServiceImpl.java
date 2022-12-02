@@ -36,14 +36,14 @@ public class EventServiceImpl implements EventService {
 		final Event event = modelMapper.map(eventDTO, Event.class);
 		final Event eventDB = eventRepository.save(event);
 		
-		createTicketList(eventDB);
+		createTicketList(eventDB, eventDB.getInitialNumberOfTickets().longValue());
 		
 		return Optional.of(eventDB);
 	}
 
-	private void createTicketList(Event eventDB) {
+	private void createTicketList(Event eventDB, Long ticketQuantity) {
 		final List<Ticket> ticketList = new ArrayList<>();
-		for(Ticket ticket : Arrays.asList(new Ticket[eventDB.getInitialNumberOfTickets()])) {
+		for(Ticket ticket : Arrays.asList(new Ticket[ticketQuantity.intValue()])) {
 			ticket = new Ticket();
 			ticket.setEvent(eventDB);
 			ticket.setRedeemed(false);
@@ -53,17 +53,15 @@ public class EventServiceImpl implements EventService {
 	}
 
 	@Override
-	public Optional<Event> update(Long eventId, EventDTO eventDTO) {
-		final Optional<Event> eventOpt = eventRepository.findById(eventId);
+	public Optional<Event> addTicket(Long eventId, Long ticketQuantity) {
+		final Optional<Event> eventOPT = eventRepository.findById(eventId);
 		
-		if(eventOpt.isPresent()) {
-			final List<Ticket> ticketList = new ArrayList<>(eventDTO.getInitialNumberOfTickets());
-			eventDTO.setTicketList(ticketList);
-			final Event event = modelMapper.map(eventDTO, Event.class);
-			event.setId(eventId);
-			final Event eventDB = eventRepository.save(event);
+		if(eventOPT.isPresent()) {
+			Event eventDB = eventOPT.get();
+			createTicketList(eventDB, ticketQuantity);
 			return Optional.of(eventDB);
-		} 
+		}
+		
 		return Optional.empty();
 	}
 

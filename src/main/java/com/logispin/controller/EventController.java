@@ -57,12 +57,12 @@ public class EventController {
 		}
 	}
 	
-	@PutMapping("/{eventId}")
-	public ResponseEntity<EventDTO> update(@PathVariable String eventId, @RequestBody EventDTO eventDTO) {
+	@PutMapping("/{eventId}/add-ticket/{ticketQuantity}")
+	public ResponseEntity<EventDTO> addTicket(@PathVariable String eventId, @PathVariable String ticketQuantity) {
 		try {
-			Optional<Event> eventOpt = eventService.update(Long.parseLong(eventId), eventDTO);
+			Optional<Event> eventOpt = eventService.addTicket(Long.parseLong(eventId), Long.parseLong(ticketQuantity));
 			if (eventOpt.isPresent()) {
-				LOGGER.info("Updated event: {} ", eventOpt.get().toString());
+				LOGGER.info("Added tickets to event: {} ", eventOpt.get().toString());
 				EventDTO eventDTOResponse = modelMapper.map(eventOpt.get(), EventDTO.class);
 				return new ResponseEntity<EventDTO>(eventDTOResponse, HttpStatus.CREATED);
 			} else {
@@ -70,7 +70,7 @@ public class EventController {
 				return new ResponseEntity<EventDTO>(HttpStatus.INTERNAL_SERVER_ERROR);
 			}
 		} catch (RuntimeException runtimeException) {
-			LOGGER.error("Error to update event: {} ", runtimeException.getMessage());
+			LOGGER.error("Error to add tickets to event: {} ", runtimeException.getMessage());
 			throw new RuntimeException("An exception occurs;");
 		}
 	}

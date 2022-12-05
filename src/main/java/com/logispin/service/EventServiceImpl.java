@@ -43,12 +43,13 @@ public class EventServiceImpl implements EventService {
 
 	private void createTicketList(Event eventDB, Long ticketQuantity) {
 		final List<Ticket> ticketList = new ArrayList<>();
-		for(Ticket ticket : Arrays.asList(new Ticket[ticketQuantity.intValue()])) {
+		
+		Arrays.asList(new Ticket[ticketQuantity.intValue()]).forEach(ticket -> {
 			ticket = new Ticket();
 			ticket.setEvent(eventDB);
 			ticket.setRedeemed(false);
 			ticketList.add(ticket);
-		}
+		});
 		ticketService.saveAll(ticketList);
 	}
 
@@ -64,6 +65,4 @@ public class EventServiceImpl implements EventService {
 		
 		return Optional.empty();
 	}
-
-	
 }

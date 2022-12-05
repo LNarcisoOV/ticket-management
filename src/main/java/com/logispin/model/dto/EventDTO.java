@@ -13,7 +13,7 @@ public class EventDTO {
 
 	private Integer initialNumberOfTickets;
 
-	private List<Ticket> ticketList;
+	private List<TicketDTO> ticketList;
 
 	public String getName() {
 		return name;
@@ -39,11 +39,11 @@ public class EventDTO {
 		this.initialNumberOfTickets = initialNumberOfTickets;
 	}
 
-	public List<Ticket> getTicketList() {
+	public List<TicketDTO> getTicketList() {
 		return ticketList;
 	}
 
-	public void setTicketList(List<Ticket> ticketList) {
+	public void setTicketList(List<TicketDTO> ticketList) {
 		this.ticketList = ticketList;
 	}
 

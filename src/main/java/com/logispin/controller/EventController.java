@@ -34,6 +34,7 @@ public class EventController {
 	private ModelMapper modelMapper;
 
 	@GetMapping("/")
+	@SuppressWarnings("unchecked")
 	public ResponseEntity<List<EventDTO>> getAll() {
 		List<EventDTO> eventDTOList = modelMapper.map(eventService.findAll(), List.class);
 		return new ResponseEntity<List<EventDTO>>(eventDTOList, HttpStatus.OK);
@@ -42,7 +43,7 @@ public class EventController {
 	@PostMapping("/")
 	public ResponseEntity<EventDTO> save(@RequestBody EventDTO eventDTO) {
 		try {
-			Optional<Event> eventOpt = eventService.save(eventDTO);
+			final Optional<Event> eventOpt = eventService.save(eventDTO);
 			if (eventOpt.isPresent()) {
 				LOGGER.info("Created event: {} ", eventOpt.get().toString());
 				EventDTO eventDTOResponse = modelMapper.map(eventOpt.get(), EventDTO.class);
@@ -60,7 +61,7 @@ public class EventController {
 	@PutMapping("/{eventId}/add-ticket/{ticketQuantity}")
 	public ResponseEntity<EventDTO> addTicket(@PathVariable String eventId, @PathVariable String ticketQuantity) {
 		try {
-			Optional<Event> eventOpt = eventService.addTicket(Long.parseLong(eventId), Long.parseLong(ticketQuantity));
+			final Optional<Event> eventOpt = eventService.addTicket(Long.parseLong(eventId), Long.parseLong(ticketQuantity));
 			if (eventOpt.isPresent()) {
 				LOGGER.info("Added tickets to event: {} ", eventOpt.get().toString());
 				EventDTO eventDTOResponse = modelMapper.map(eventOpt.get(), EventDTO.class);

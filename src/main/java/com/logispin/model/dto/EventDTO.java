@@ -1,5 +1,6 @@
 package com.logispin.model.dto;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -47,9 +48,13 @@ public class EventDTO {
 		this.ticketList = ticketList;
 	}
 
+	public Integer getCurrentTicketQuantity() {
+		return this.ticketList != null && !this.ticketList.isEmpty() ? this.ticketList.size() : 0;
+	}
+
 	@Override
 	public String toString() {
-		return "Event [name=" + name + ", date=" + date + ", initialNumberOfTickets="
-				+ initialNumberOfTickets + ", ticketList=" + ticketList + "]";
+		return "Event [name=" + name + ", date=" + date + ", initialNumberOfTickets=" + initialNumberOfTickets
+				+ ", ticketList=" + ticketList + "]";
 	}
 }

@@ -95,6 +95,6 @@ public class Event {
 	@Override
 	public String toString() {
 		return "Event [id=" + id + ", name=" + name + ", date=" + date + ", initialNumberOfTickets="
-				+ initialNumberOfTickets + ", ticketList=" + ticketList + "]";
+				+ initialNumberOfTickets + "]";
 	}
 }

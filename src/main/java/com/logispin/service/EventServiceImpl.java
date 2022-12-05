@@ -36,12 +36,13 @@ public class EventServiceImpl implements EventService {
 		final Event event = modelMapper.map(eventDTO, Event.class);
 		final Event eventDB = eventRepository.save(event);
 		
-		createTicketList(eventDB, eventDB.getInitialNumberOfTickets().longValue());
+		List<Ticket> ticketList = createTicketList(eventDB, eventDB.getInitialNumberOfTickets().longValue());
+		eventDB.setTicketList(ticketList);
 		
 		return Optional.of(eventDB);
 	}
 
-	private void createTicketList(Event eventDB, Long ticketQuantity) {
+	private List<Ticket> createTicketList(Event eventDB, Long ticketQuantity) {
 		final List<Ticket> ticketList = new ArrayList<>();
 		
 		Arrays.asList(new Ticket[ticketQuantity.intValue()]).forEach(ticket -> {
@@ -51,6 +52,7 @@ public class EventServiceImpl implements EventService {
 			ticketList.add(ticket);
 		});
 		ticketService.saveAll(ticketList);
+		return ticketList;
 	}
 
 	@Override

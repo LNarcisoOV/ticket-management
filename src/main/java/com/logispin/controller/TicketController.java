@@ -40,9 +40,9 @@ public class TicketController {
 				final TicketDTO ticketDTOResponse = modelMapper.map(ticketOpt.get(), TicketDTO.class);
 
 				if (ticketOpt.get().getRedeemed()) {
-					return new ResponseEntity<TicketDTO>(ticketDTOResponse, HttpStatus.OK);
-				} else {
 					return new ResponseEntity<TicketDTO>(ticketDTOResponse, HttpStatus.GONE);
+				} else {
+					return new ResponseEntity<TicketDTO>(ticketDTOResponse, HttpStatus.OK);
 				}
 
 			} else {

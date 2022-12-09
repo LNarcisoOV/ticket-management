@@ -46,7 +46,7 @@ public class EventController {
 			final Optional<Event> eventOpt = eventService.save(eventDTO);
 			if (eventOpt.isPresent()) {
 				LOGGER.info("Created event: {} ", eventOpt.get().toString());
-				EventDTO eventDTOResponse = modelMapper.map(eventOpt.get(), EventDTO.class);
+				final EventDTO eventDTOResponse = modelMapper.map(eventOpt.get(), EventDTO.class);
 				return new ResponseEntity<EventDTO>(eventDTOResponse, HttpStatus.CREATED);
 			} else {
 				LOGGER.warn("Error to create event.");
@@ -64,7 +64,7 @@ public class EventController {
 			final Optional<Event> eventOpt = eventService.addTicket(Long.parseLong(eventId), Long.parseLong(ticketQuantity));
 			if (eventOpt.isPresent()) {
 				LOGGER.info("Added tickets to event: {} ", eventOpt.get().toString());
-				EventDTO eventDTOResponse = modelMapper.map(eventOpt.get(), EventDTO.class);
+				final EventDTO eventDTOResponse = modelMapper.map(eventOpt.get(), EventDTO.class);
 				return new ResponseEntity<EventDTO>(eventDTOResponse, HttpStatus.CREATED);
 			} else {
 				LOGGER.warn("Error to update event.");
